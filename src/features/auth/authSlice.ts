@@ -1,8 +1,7 @@
-import axios from "axios";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import authService from "./authService";
 import { User } from "../../types/user";
-import { AnyAsyncThunk } from "@reduxjs/toolkit/dist/matchers";
+import { Device } from "../../types/device";
 
 // Get user from localStorage
 const getCurrentUser = () => {
@@ -13,10 +12,11 @@ const getCurrentUser = () => {
 const user = getCurrentUser();
 
 interface State {
-  user?: User;
+  user?: User | null;
   isError: boolean;
   isSuccess: boolean;
   isLoading: boolean;
+  isAnon: boolean;
   message: string;
 }
 
@@ -25,8 +25,22 @@ const initialState = {
   isError: false,
   isSuccess: false,
   isLoading: false,
+  isAnon: user ? user.User.UserName === "Anonymous" : false,
   message: "",
-} as State;
+};
+
+// Anonymous user
+export const anonUser = createAsyncThunk(
+  "auth/anonUser",
+  async (device: Device, thunkAPI) => {
+    try {
+      return await authService.anonUser(device.name, device.platformCode);
+    } catch (error: any) {
+      const message = error.response.data || error.message || error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
 
 //Login user
 export const login = createAsyncThunk(
@@ -43,7 +57,7 @@ export const login = createAsyncThunk(
 
 //Logout
 export const logout = createAsyncThunk("auth/logout", async () => {
-  await authService.logout();
+  authService.logout();
 });
 
 export const authSlice = createSlice({
@@ -54,23 +68,40 @@ export const authSlice = createSlice({
       state.isLoading = false;
       state.isSuccess = false;
       state.isError = false;
+      state.isAnon = false;
       state.message = "";
     },
   },
   extraReducers: (builder) => {
     builder
+      .addCase(anonUser.pending, (state: State) => {
+        state.isLoading = true;
+      })
+      .addCase(anonUser.fulfilled, (state: State, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isAnon = true;
+        state.user = action.payload;
+      })
+      .addCase(anonUser.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+      })
       .addCase(login.pending, (state: State) => {
         state.isLoading = true;
       })
       .addCase(login.fulfilled, (state: State, action) => {
         state.isLoading = false;
         state.isSuccess = true;
+        state.isAnon = false;
         state.user = action.payload;
       })
-      .addCase(login.rejected, (state, action: any) => {
+      .addCase(login.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
-        state.message = action.payload;
+      })
+      .addCase(logout.fulfilled, (state) => {
+        state.user = null;
       });
   },
 });

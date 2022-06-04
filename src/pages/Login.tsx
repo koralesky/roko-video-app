@@ -1,7 +1,9 @@
-import React, { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { login } from "../features/auth/authSlice";
+import { useSelector } from "react-redux";
+import { RootState, useAppDispatch } from "../store";
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -9,7 +11,7 @@ function Login() {
     password: "",
   });
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleLogin = (e: FormEvent) => {
     e.preventDefault();
@@ -18,18 +20,18 @@ function Login() {
       toast.error("Please fill in all credentials!");
     } else {
       dispatch(
-        // @ts-ignore
         login({
           username: formData.username,
           password: formData.password,
+          device: {
+            name: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+            platformCode: "WEB",
+          },
         })
       )
         .unwrap()
         .catch(() => {
           toast.error("Wrong credentials!");
-        })
-        .then(() => {
-          toast.success("Logged in");
         });
     }
   };
@@ -52,7 +54,7 @@ function Login() {
         >
           <input
             type="email"
-            name="formUsername"
+            name="username"
             className="form-control w-full rounded-md p-3 bg-blueLight focus-visible:outline-none"
             id="username"
             value={formData.username}
@@ -61,7 +63,7 @@ function Login() {
           />
           <input
             type="password"
-            name="formPassword"
+            name="password"
             className="form-control w-full rounded-md p-3 bg-blueLight focus-visible:outline-none"
             id="password"
             value={formData.password}
