@@ -1,7 +1,5 @@
 import axios from "axios";
-import { Device } from "../../types/device";
-
-const API_URL = "https://thebetter.bsgroup.eu/Authorization";
+import { AUTH_API_URL as API_URL } from "../../constants/api";
 
 // Anonymous user
 const anonUser = async (name: string, platformCode: string) => {

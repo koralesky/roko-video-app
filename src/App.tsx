@@ -16,26 +16,21 @@ import { anonUser } from "./features/auth/authSlice";
 
 function App() {
   useAuth();
-  const dispatch = useAppDispatch();
-  const { user, isAnon } = useSelector((state: RootState) => state.auth);
 
-  useEffect(() => {
-    if (!user) {
-      dispatch(
-        anonUser({
-          name: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-          platformCode: "WEB",
-        })
-      );
-    }
-  }, [user, isAnon]);
   return (
     <>
       <div className="app-container relative px-10 py-20 bg-blueDark min-h-[100vh] text-[white] flex flex-col">
         <Router>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
+            <Route
+              path="/login"
+              element={
+                <ProtectedRoute>
+                  <Login />
+                </ProtectedRoute>
+              }
+            />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Router>

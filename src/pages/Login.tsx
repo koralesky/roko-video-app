@@ -1,9 +1,8 @@
-import { FormEvent, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { FormEvent, useState } from "react";
 import { toast } from "react-toastify";
 import { login } from "../features/auth/authSlice";
-import { useSelector } from "react-redux";
-import { RootState, useAppDispatch } from "../store";
+import { useAppDispatch } from "../store";
+import { v4 as uuidv4 } from "uuid";
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -24,7 +23,7 @@ function Login() {
           username: formData.username,
           password: formData.password,
           device: {
-            name: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+            name: uuidv4(),
             platformCode: "WEB",
           },
         })

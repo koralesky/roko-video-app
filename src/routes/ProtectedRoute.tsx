@@ -7,8 +7,8 @@ interface Props {
 }
 
 function ProtectedRoute({ children }: Props) {
-  const { user } = useSelector((state: RootState) => state.auth);
-  return !user ? children : <Navigate to="/" />;
+  const { isAnon } = useSelector((state: RootState) => state.auth);
+  return isAnon ? children : <Navigate to="/" />;
 }
 
 export default ProtectedRoute;

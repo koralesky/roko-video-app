@@ -1,12 +1,14 @@
-import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { logout, reset } from "../features/auth/authSlice";
+import { RootState, useAppDispatch } from "../store";
 
 function Navbar() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  const { isAnon, user } = useSelector((state: RootState) => state.auth);
 
   const handleLogout = () => {
-    //   @ts-ignore
     dispatch(logout());
     dispatch(reset());
     toast.success("Logged out!");
@@ -20,13 +22,25 @@ function Navbar() {
         </ul>
       </div>
       <div className="nav-right">
-        <button
-          // @ts-ignore
-          onClick={handleLogout}
-          className="bg-yellowDark py-2 px-4 rounded-2xl text-blue font-bold"
-        >
-          Logout
-        </button>
+        {isAnon ? (
+          <Link to="/login">
+            <button className="bg-yellowDark py-2 px-6 rounded-3xl text-blue font-bold">
+              Login
+            </button>
+          </Link>
+        ) : (
+          <>
+            {!isAnon && user && (
+              <span className="mr-4">Welcome {user.User.FullName}!</span>
+            )}
+            <button
+              onClick={handleLogout}
+              className="bg-yellowDark py-2 px-6 rounded-3xl text-blue font-bold"
+            >
+              Logout
+            </button>
+          </>
+        )}
       </div>
     </div>
   );
