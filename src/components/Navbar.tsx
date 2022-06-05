@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { anonUser, logout, reset } from "../features/auth/authSlice";
 import { RootState, useAppDispatch } from "../store";
@@ -8,6 +8,7 @@ import { RootState, useAppDispatch } from "../store";
 function Navbar() {
   const dispatch = useAppDispatch();
   const { isAnon, user } = useSelector((state: RootState) => state.auth);
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     dispatch(logout())

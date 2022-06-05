@@ -6,6 +6,7 @@ import { RootState } from "../store";
 import VideoPlayer from "../components/VideoJs";
 import mime from "mime";
 import helpers from "../utils/helpers";
+import { toast } from "react-toastify";
 
 interface IVideo {
   ContentUrl: string;
@@ -25,21 +26,34 @@ function SingleVideo() {
   const [video, setVideo] = useState<IVideo | null>(null);
   const [videoSrc, setVideoSrc] = useState("");
   const [mimeType, setMimeType] = useState("");
+  const [error, setError] = useState(0);
 
   useEffect(() => {
-    mediaService
-      .getMediaPlayInfo(
-        { mediaId: parseInt(id!), isAnon: isAnon },
-        user.AuthorizationToken.Token
-      )
-      .then((result) => {
-        setVideo(result);
-        console.log(result);
-        console.log(helpers.getFileType(result.ContentUrl));
-        setMimeType(helpers.getFileType(result.ContentUrl));
-        setVideoSrc(result.ContentUrl);
-      })
-      .then(() => setIsLoading(false));
+    if (user) {
+      mediaService
+        .getMediaPlayInfo(
+          { mediaId: parseInt(id!), isAnon: isAnon },
+          user.AuthorizationToken.Token
+        )
+        .then((result) => {
+          setVideo(result);
+          console.log(result);
+          console.log(helpers.getFileType(result.ContentUrl));
+          setMimeType(helpers.getFileType(result.ContentUrl));
+          setVideoSrc(result.ContentUrl);
+        })
+        .catch((error) => {
+          setError(error.response.status);
+          console.log(error.response.status);
+          error.response.status === 403 &&
+            toast.error("Subscribe to view this content.");
+        })
+        .then(() => setIsLoading(false));
+    }
+
+    return () => {
+      setError(0);
+    };
   }, [id, user]);
 
   const videoJsOptions = {
@@ -61,7 +75,12 @@ function SingleVideo() {
         {videoSrc ? (
           <VideoPlayer options={videoJsOptions} />
         ) : (
-          <>Video Not Available</>
+          <div>Video Not Available</div>
+        )}
+        {error === 403 && (
+          <div className="mt-4 text-2xl text-orangeDark">
+            Video available only for subscribed users!
+          </div>
         )}
       </div>
     </main>
