@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Navbar from "../components/Navbar";
+import Row from "../components/Row";
 import mediaService from "../features/media/mediaService";
 import { RootState } from "../store";
 import { Video } from "../types/video";
@@ -9,8 +10,11 @@ function Home() {
   const { user } = useSelector((state: RootState) => state.auth);
   const [isLoading, setIsLoading] = useState(true);
   const [mediaArr, setMediaArr] = useState<any>([]);
+  const [chunkedArray, setChunkedArray] = useState<any>([]);
 
   useEffect(() => {
+    console.log("User from home", user);
+    // Array that contains all promises from API
     let promises = [];
     if (user) {
       for (let i = 2; i <= 7; i++) {
@@ -29,13 +33,26 @@ function Home() {
       }
     }
 
+    // Resolve all promises, and push results into one array
     Promise.all(promises)
       .then((result) => {
-        result.map((promiseResult) => {
+        result.map((promiseResult, index: number) => {
           mediaArr.push(...promiseResult.Entities);
         });
       })
-      .then(() => setIsLoading(false));
+      .then(() => {
+        // Divide array into smaller - max 10 items size arrays.
+        const chunkSize = 10;
+        for (let i = 0; i < mediaArr.length; i += chunkSize) {
+          const chunk = mediaArr.slice(i, i + chunkSize);
+          chunkedArray.push(chunk);
+          console.log(chunkedArray);
+        }
+      })
+      .then(() => setIsLoading(false))
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   if (isLoading) return <div>Loading...</div>;
@@ -43,12 +60,11 @@ function Home() {
   return (
     <div>
       <Navbar />
-      <div>Home</div>
-      <ul className="vids">
-        {mediaArr.map((video: Video, index: number) => (
-          <li key={index}>{video.Title}</li>
+      <main className="space-y-16">
+        {chunkedArray.map((innerArray: [Video], index: number) => (
+          <Row title={`Videos ${index}`} videos={innerArray} />
         ))}
-      </ul>
+      </main>
     </div>
   );
 }

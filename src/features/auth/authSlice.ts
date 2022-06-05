@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import authService from "./authService";
 import { User } from "../../types/user";
 import { Device } from "../../types/device";
+import { v4 as uuidv4 } from "uuid";
 
 // Get user from localStorage
 const getCurrentUser = () => {
@@ -32,9 +33,9 @@ const initialState = {
 // Anonymous user
 export const anonUser = createAsyncThunk(
   "auth/anonUser",
-  async (device: Device, thunkAPI) => {
+  async (_, thunkAPI) => {
     try {
-      return await authService.anonUser(device.name, device.platformCode);
+      return await authService.anonUser(uuidv4(), "WEB");
     } catch (error: any) {
       const message = error.response.data || error.message || error.toString();
       return thunkAPI.rejectWithValue(message);
@@ -57,7 +58,7 @@ export const login = createAsyncThunk(
 
 //Logout
 export const logout = createAsyncThunk("auth/logout", async () => {
-  authService.logout();
+  await authService.logout();
 });
 
 export const authSlice = createSlice({

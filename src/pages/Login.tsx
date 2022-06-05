@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import { login } from "../features/auth/authSlice";
 import { useAppDispatch } from "../store";
 import { v4 as uuidv4 } from "uuid";
+import { Link } from "react-router-dom";
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -42,13 +43,13 @@ function Login() {
     }));
   };
   return (
-    <div className="bg-blue shadow-md my-auto mx-auto w-[100%] md:w-[600px] rounded-xl px-10 py-20 gap-3 flex flex-col">
+    <div className="bg-blue shadow-md my-auto mx-auto w-[100%] md:w-[600px] rounded-xl px-6 md:px-10 py-20 gap-3 flex flex-col">
       <h2 className="text-4xl font-semibold w-full md:w-2/3 mx-auto mb-3">
         Sign in
       </h2>
-      <div className="">
+      <div className="w-full md:w-2/3 mx-auto">
         <form
-          className="flex items-center w-full md:w-2/3 mx-auto flex-col gap-4"
+          className="flex items-center mx-auto flex-col gap-4"
           onSubmit={handleLogin}
         >
           <input
@@ -77,6 +78,9 @@ function Login() {
             Sign in
           </button>
         </form>
+        <div className="mt-5">
+          <Link to="/">Continue as Anonymous User</Link>
+        </div>
       </div>
     </div>
   );

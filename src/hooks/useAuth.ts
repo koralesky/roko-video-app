@@ -11,31 +11,20 @@ const useAuth = () => {
   const { user, isAnon } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
-    if (!user) {
-      dispatch(
-        anonUser({
-          name: uuidv4(),
-          platformCode: "WEB",
-        })
-      );
+    // If there is no user, or user = Anonymous, then sign in as Anonymous to get new expiration token.
+    if (!user || isAnon) {
+      dispatch(anonUser());
     } else {
-      if (isAnon) {
-        if (isInThePast(new Date(user.AuthorizationToken.TokenExpires))) {
-          dispatch(
-            anonUser({
-              name: uuidv4(),
-              platformCode: "WEB",
-            })
-          );
-        }
-      } else {
-        if (isInThePast(new Date(user.AuthorizationToken.TokenExpires))) {
-          dispatch(logout());
-          toast.warn("Session Expired.");
-        }
+      // If user != Anonymous and token expired then logout.
+      // Normally I would use refresh token, to extend session, however in the tasks was mentioned to use only listed API mehtods.
+      if (isInThePast(new Date(user.AuthorizationToken.TokenExpires))) {
+        dispatch(logout());
+        toast.warn("Session Expired.");
       }
     }
-  }, [user, isAnon]);
+  }, []);
+
+  return user;
 };
 
 export default useAuth;
