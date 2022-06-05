@@ -1,12 +1,12 @@
-# Getting Started with Create React App
+# ROKOvid video app
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Project of streaming app based on [Roku API](https://thebetter.bsgroup.eu/swagger/index.html).
 
 ## Available Scripts
 
 In the project directory, you can run:
 
-### `npm start`
+### `yarn start`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
@@ -14,33 +14,51 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
-### `npm test`
+## Tasks
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Main goal:
 
-### `npm run build`
+The goal of this task is to make an OTT web application containing video content with the
+option of playback.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Video and data source:
+Swagger and all the data you can find here:
+https://thebetter.bsgroup.eu/swagger/index.html
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Assumptions:
+The application should consist of at least splash screen, main screen, and player.
+Every helpful information you can find below.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Helpful information:
+• API URL: https://thebetter.bsgroup.eu
+• Your application should be hosted on http://localhost:3000 to avoid CORS problems
+when polling the API
+• Use only those API methods that are listed in the task content.
+Pay attention to the types of API requests that are given in the content of the task
+(GET, POST, PUT)
 
-### `npm run eject`
+### 1. Splash Screen
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+During loading, the app should display a simple splash view.
+On the splash screen, you can handle login, or you can add a separate view with login.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 2. Home (main screen)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Requirements:
+• Home should consist of list (or lists) with video content.
+• For example: Home can contain two list with scroll possibility.
+• Each list should have title and 15 items.
+• Item should contain: title, cover (16:9 format).
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+All data for list you can get from API.
 
-## Learn More
+### 3. Player
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Additional information:
+• Player trigger – on click on the list item.
+• You can use any player you know or download any open-source player from the web.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 4. Login screen (optional)
+
+Requirements:
+• Add a login screen for registered users
