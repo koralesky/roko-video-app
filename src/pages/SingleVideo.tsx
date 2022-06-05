@@ -35,6 +35,7 @@ function SingleVideo() {
       .then((result) => {
         setVideo(result);
         console.log(result);
+        console.log(helpers.getFileType(result.ContentUrl));
         setMimeType(helpers.getFileType(result.ContentUrl));
         setVideoSrc(result.ContentUrl);
       })
@@ -47,7 +48,7 @@ function SingleVideo() {
     sources: [
       {
         src: videoSrc,
-        type: mimeType,
+        type: mimeType ? mimeType : "video/mp4",
       },
     ],
   };
@@ -56,8 +57,8 @@ function SingleVideo() {
   return (
     <main className="flex flex-col w-full gap-5">
       <h1 className="text-4xl font-bold">{video?.Title}</h1>
-      <div className="player w-full h-[60vh]">
-        {videoSrc && mimeType ? (
+      <div className="player w-full">
+        {videoSrc ? (
           <VideoPlayer options={videoJsOptions} />
         ) : (
           <>Video Not Available</>

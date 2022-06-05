@@ -61,7 +61,6 @@ function Home() {
               el.Images.length > 0 && helpers.findIndexOfImg(el, "FRAME") > -1
           )[Math.floor(Math.random() * mediaArr.length)]
         );
-        console.log(mediaArr);
       })
       .then(() => setIsLoading(false))
       .catch((error) => {
