@@ -1,10 +1,44 @@
 # ROKOvid video app
 
 Project of streaming app based on [Roku API](https://thebetter.bsgroup.eu/swagger/index.html).
+Projects is based on React, TypeScript and Redux-Toolkit.
+Project also uses Tailwind, Axios, Sass and few more libraries.
+
+## Project structure
+
+### src/components
+
+All components
+
+### src/constants
+
+API urls
+
+### src/features
+
+Redux, and services used to fetch communicate with API.
+
+### src/hooks
+
+Hook to handle authorization
+
+### src/pages
+
+All views are here
+
+### src/routes
+
+Protected routes
+
+### src/styles
+
+Scss
+
+### src/utils
+
+Helpers and reusable methods.
 
 ## Available Scripts
-
-In the project directory, you can run:
 
 ### `yarn start`
 

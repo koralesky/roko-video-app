@@ -10,7 +10,6 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./routes/ProtectedRoute";
-import PrivateRoute from "./routes/PrivateRoute";
 import useAuth from "./hooks/useAuth";
 import { useSelector } from "react-redux";
 import { anonUser } from "./features/auth/authSlice";
