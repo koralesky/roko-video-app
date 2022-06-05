@@ -44,14 +44,20 @@ function Home() {
         });
       })
       .then(() => {
-        setFeaturedVideo(mediaArr[Math.floor(Math.random() * mediaArr.length)]);
         // Divide array into smaller - max 10 items size arrays.
         const chunkSize = 10;
         for (let i = 0; i < mediaArr.length; i += chunkSize) {
           const chunk = mediaArr.slice(i, i + chunkSize);
           chunkedArray.push(chunk);
         }
-        console.log(mediaArr);
+        // Set featured video as random video that has Images and has "FRAME" ImageTypeCode
+        setFeaturedVideo(
+          mediaArr.filter(
+            (el: Video) =>
+              el.Images.length > 0 &&
+              el.Images.findIndex((img) => img.ImageTypeCode === "FRAME") > -1
+          )[Math.floor(Math.random() * mediaArr.length)]
+        );
       })
       .then(() => setIsLoading(false))
       .catch((error) => {
@@ -65,10 +71,9 @@ function Home() {
     <div>
       <Navbar />
       <main className="space-y-16">
-        {console.log(featuredVideo)}
-        <Featured />
+        {featuredVideo && <Featured video={featuredVideo} />}
         {chunkedArray.map((innerArray: [Video], index: number) => (
-          <Row title={`Videos ${index}`} videos={innerArray} />
+          <Row title={`Videos ${index + 1}`} videos={innerArray} />
         ))}
       </main>
     </div>
