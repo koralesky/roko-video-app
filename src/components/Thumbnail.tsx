@@ -6,11 +6,11 @@ interface Props {
 
 function Thumbnail({ video }: Props) {
   return (
-    <div className=" relative h-28 w-[180px] cursor-pointer transition duration-200 ease-in-out md:h-36 min-w-[260px] md:hover:scale-105">
+    <div className="flex items-center justify-center relative h-28 w-[180px] cursor-pointer transition duration-200 ease-in-out md:h-36 min-w-[260px] md:hover:scale-105">
       {video.Images[0] ? (
         <img
           src={video.Images[0].Url}
-          className="rounded-sm object-cover md:rounded"
+          className="rounded-sm object-cover md:rounded w-full h-full object-top"
         />
       ) : (
         video.Title

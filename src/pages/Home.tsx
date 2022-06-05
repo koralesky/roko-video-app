@@ -13,7 +13,6 @@ function Home() {
   const [chunkedArray, setChunkedArray] = useState<any>([]);
 
   useEffect(() => {
-    console.log("User from home", user);
     // Array that contains all promises from API
     let promises = [];
     if (user) {
@@ -46,7 +45,6 @@ function Home() {
         for (let i = 0; i < mediaArr.length; i += chunkSize) {
           const chunk = mediaArr.slice(i, i + chunkSize);
           chunkedArray.push(chunk);
-          console.log(chunkedArray);
         }
       })
       .then(() => setIsLoading(false))
