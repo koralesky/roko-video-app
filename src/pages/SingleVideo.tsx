@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import mediaService from "../features/media/mediaService";
 import { RootState } from "../store";
 import VideoPlayer from "../components/VideoJs";
-import mime from "mime";
 import helpers from "../utils/helpers";
 import { toast } from "react-toastify";
 import SplashScreen from "../components/SplashScreen";
@@ -38,14 +37,12 @@ function SingleVideo() {
         )
         .then((result) => {
           setVideo(result);
-          console.log(result);
           console.log(helpers.getFileType(result.ContentUrl));
           setMimeType(helpers.getFileType(result.ContentUrl));
           setVideoSrc(result.ContentUrl);
         })
         .catch((error) => {
           setError(error.response.status);
-          console.log(error.response.status);
           error.response.status === 403 &&
             toast.error("Subscribe to view this content.");
         })

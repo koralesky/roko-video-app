@@ -1,4 +1,3 @@
-import React from "react";
 import { Video } from "../types/video";
 import { FaPlay } from "react-icons/fa";
 import helpers from "../utils/helpers";

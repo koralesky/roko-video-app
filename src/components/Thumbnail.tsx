@@ -1,6 +1,4 @@
-import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { RootState } from "../store";
 import { Video } from "../types/video";
 import helpers from "../utils/helpers";
 

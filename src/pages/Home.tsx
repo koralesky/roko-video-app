@@ -1,15 +1,12 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Featured from "../components/Featured";
-import Navbar from "../components/Navbar";
 import Row from "../components/Row";
 import SplashScreen from "../components/SplashScreen";
-import { anonUser } from "../features/auth/authSlice";
 import mediaService from "../features/media/mediaService";
 import { RootState, useAppDispatch } from "../store";
 import { Video } from "../types/video";
 import helpers from "../utils/helpers";
-import isInThePast from "../utils/isInThePast";
 
 function Home() {
   const { user } = useSelector((state: RootState) => state.auth);
