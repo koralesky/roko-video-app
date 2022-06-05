@@ -7,6 +7,7 @@ import VideoPlayer from "../components/VideoJs";
 import mime from "mime";
 import helpers from "../utils/helpers";
 import { toast } from "react-toastify";
+import SplashScreen from "../components/SplashScreen";
 
 interface IVideo {
   ContentUrl: string;
@@ -67,7 +68,7 @@ function SingleVideo() {
     ],
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <SplashScreen />;
   return (
     <main className="flex flex-col w-full gap-5">
       <h1 className="text-4xl font-bold">{video?.Title}</h1>

@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import Featured from "../components/Featured";
 import Navbar from "../components/Navbar";
 import Row from "../components/Row";
+import SplashScreen from "../components/SplashScreen";
 import { anonUser } from "../features/auth/authSlice";
 import mediaService from "../features/media/mediaService";
 import { RootState, useAppDispatch } from "../store";
@@ -68,7 +69,7 @@ function Home() {
       });
   }, []);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <SplashScreen />;
 
   return (
     <div>
