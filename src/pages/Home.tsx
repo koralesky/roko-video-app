@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import Featured from "../components/Featured";
 import Navbar from "../components/Navbar";
 import Row from "../components/Row";
 import mediaService from "../features/media/mediaService";
@@ -11,6 +12,9 @@ function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [mediaArr, setMediaArr] = useState<any>([]);
   const [chunkedArray, setChunkedArray] = useState<any>([]);
+  const [featuredVideo, setFeaturedVideo] = useState<Video | undefined>(
+    undefined
+  );
 
   useEffect(() => {
     // Array that contains all promises from API
@@ -40,12 +44,14 @@ function Home() {
         });
       })
       .then(() => {
+        setFeaturedVideo(mediaArr[Math.floor(Math.random() * mediaArr.length)]);
         // Divide array into smaller - max 10 items size arrays.
         const chunkSize = 10;
         for (let i = 0; i < mediaArr.length; i += chunkSize) {
           const chunk = mediaArr.slice(i, i + chunkSize);
           chunkedArray.push(chunk);
         }
+        console.log(mediaArr);
       })
       .then(() => setIsLoading(false))
       .catch((error) => {
@@ -59,6 +65,8 @@ function Home() {
     <div>
       <Navbar />
       <main className="space-y-16">
+        {console.log(featuredVideo)}
+        <Featured />
         {chunkedArray.map((innerArray: [Video], index: number) => (
           <Row title={`Videos ${index}`} videos={innerArray} />
         ))}
