@@ -3,9 +3,12 @@ import { useSelector } from "react-redux";
 import Featured from "../components/Featured";
 import Navbar from "../components/Navbar";
 import Row from "../components/Row";
+import { anonUser } from "../features/auth/authSlice";
 import mediaService from "../features/media/mediaService";
-import { RootState } from "../store";
+import { RootState, useAppDispatch } from "../store";
 import { Video } from "../types/video";
+import helpers from "../utils/helpers";
+import isInThePast from "../utils/isInThePast";
 
 function Home() {
   const { user } = useSelector((state: RootState) => state.auth);
@@ -15,6 +18,7 @@ function Home() {
   const [featuredVideo, setFeaturedVideo] = useState<Video | undefined>(
     undefined
   );
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     // Array that contains all promises from API
@@ -54,10 +58,10 @@ function Home() {
         setFeaturedVideo(
           mediaArr.filter(
             (el: Video) =>
-              el.Images.length > 0 &&
-              el.Images.findIndex((img) => img.ImageTypeCode === "FRAME") > -1
+              el.Images.length > 0 && helpers.findIndexOfImg(el, "FRAME") > -1
           )[Math.floor(Math.random() * mediaArr.length)]
         );
+        console.log(mediaArr);
       })
       .then(() => setIsLoading(false))
       .catch((error) => {
@@ -69,7 +73,6 @@ function Home() {
 
   return (
     <div>
-      <Navbar />
       <main className="space-y-16">
         {featuredVideo && <Featured video={featuredVideo} />}
         {chunkedArray.map((innerArray: [Video], index: number) => (

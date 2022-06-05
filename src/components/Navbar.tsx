@@ -23,10 +23,12 @@ function Navbar() {
     <div className="w-[100vw] absolute left-0 top-0 px-10 py-4 flex justify-between items-center">
       <div className="nav-left">
         <ul className="flex gap-14 items-center">
-          <li className="text-2xl font-extrabold text-green">ROKOvid</li>
+          <li className="text-2xl font-extrabold text-green">
+            <Link to="/">ROKOvid</Link>
+          </li>
         </ul>
       </div>
-      <div className="nav-right">
+      <div className="nav-right mr-4">
         {isAnon ? (
           <Link to="/login">
             <button className="button">Login</button>

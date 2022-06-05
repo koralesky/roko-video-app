@@ -14,19 +14,22 @@ import PrivateRoute from "./routes/PrivateRoute";
 import useAuth from "./hooks/useAuth";
 import { useSelector } from "react-redux";
 import { anonUser } from "./features/auth/authSlice";
+import SingleVideo from "./pages/SingleVideo";
+import Navbar from "./components/Navbar";
 
 function App() {
-  useAuth();
-  // const user = useAuth();
+  const { user } = useSelector((state: RootState) => state.auth);
 
-  // useEffect(() => {
-  //   console.log(user);
-  // }, [user]);
+  useAuth();
+
+  useEffect(() => {}, [user]);
 
   return (
     <>
       <div className="app-container relative px-5 md:px-10 py-20 bg-blueDark min-h-[100vh] text-[white] flex flex-col">
         <Router>
+          <Navbar />
+
           <Routes>
             <Route path="/" element={<Home />} />
             <Route
@@ -38,6 +41,7 @@ function App() {
               }
             />
             <Route path="*" element={<NotFound />} />
+            <Route path="/watch/:id" element={<SingleVideo />} />
           </Routes>
         </Router>
       </div>

@@ -13,7 +13,7 @@ const getCurrentUser = () => {
 const user = getCurrentUser();
 
 interface State {
-  user?: User | null;
+  user: User | null;
   isError: boolean;
   isSuccess: boolean;
   isLoading: boolean;

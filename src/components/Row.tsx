@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { Video } from "../types/video";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import Thumbnail from "./Thumbnail";
+import { v4 as uuidv4 } from "uuid";
 
 interface Props {
   title: string;
@@ -45,7 +46,7 @@ function Row({ title, videos }: Props) {
           className="flex items-center space-x-0.5 overflow-x-scroll scrollbar-hide md:space-x-2.5 md:p-2 overflow-y-hidden"
         >
           {videos.map((video) => (
-            <Thumbnail key={`${title}${video.Id}`} video={video} />
+            <Thumbnail key={uuidv4()} video={video} />
           ))}
         </div>
 
