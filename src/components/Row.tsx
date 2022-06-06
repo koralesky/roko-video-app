@@ -13,6 +13,7 @@ function Row({ title, videos }: Props) {
   const rowRef = useRef<HTMLDivElement | null>(null);
   const [isMoved, setIsMoved] = useState(false);
 
+  // Handle horizontal scrolling using arrows
   const handleClick = (direction: string) => {
     setIsMoved(true);
 

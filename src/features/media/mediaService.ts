@@ -22,6 +22,7 @@ const getMediaList = async (mediaData: any, token: string) => {
   return response.data;
 };
 
+// Get info about single Media
 const getMediaPlayInfo = async (
   mediaData: IGetMediaPlayInfo,
   token: string
