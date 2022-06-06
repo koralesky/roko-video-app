@@ -37,7 +37,6 @@ function SingleVideo() {
         )
         .then((result) => {
           setVideo(result);
-          console.log(helpers.getFileType(result.ContentUrl));
           setMimeType(helpers.getFileType(result.ContentUrl));
           setVideoSrc(result.ContentUrl);
         })
